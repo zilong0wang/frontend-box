@@ -1,0 +1,15 @@
+body {
+    font-size: 14px;
+    color: $black;
+}
+h1, h2, h3 {
+    font-weight: 600;
+}
+::placeholder {
+    color: gray;
+}
+.row {
+    display: flex;
+    border: 1px solid $black;
+    border-radius: 5px;
+}
