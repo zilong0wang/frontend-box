@@ -2,8 +2,9 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const outputDir = path.resolve(__dirname, 'app/dist');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const outputDir = path.resolve(__dirname, 'app/dist');
 const cssLoader = {
     loader: 'css-loader',
     options: { importLoaders: 1 }
@@ -17,6 +18,7 @@ const postCssLoader = {
         ]
     }
 };
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     // The base directory, an absolute path, for resolving entry points and loaders from configuration.
@@ -33,28 +35,6 @@ module.exports = {
     },
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
-    plugins: [
-        new CleanWebpackPlugin([
-            outputDir
-        ]),
-        new CopyWebpackPlugin(
-            [{
-                from: path.resolve(__dirname, 'app/assets'),
-                to: './' // Output root if from is file or dir, resolved glob path if from is glob
-            }],
-            {
-                // By default, we only copy modified files during a webpack --watch or webpack-dev-server build. 
-                // Setting this option to true will copy all files.
-                copyUnmodified: true
-            }
-        ),
-        new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: "[name].css",
-            chunkFilename: "[id].css"
-        })
-    ],
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"],
@@ -94,6 +74,32 @@ module.exports = {
             },
         ]
     },
+    plugins: [
+        new CleanWebpackPlugin([
+            outputDir
+        ]),
+        new CopyWebpackPlugin(
+            [{
+                from: 'assets',
+                to: './' // Output root if from is file or dir, resolved glob path if from is glob
+            }],
+            {
+                // By default, we only copy modified files during a webpack --watch or webpack-dev-server build. 
+                // Setting this option to true will copy all files.
+                copyUnmodified: true
+            }
+        ),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: '[name].css',
+            // chunkFilename: '[id].css'
+        }),
+        new HtmlWebpackPlugin({
+            title: 'My App',
+            template: 'assets/index.html'
+        })
+    ],
     // When importing a module whose path matches one of the following, just
     // assume a corresponding global variable exists and use that instead.
     // This is important because it allows us to avoid bundling all of our

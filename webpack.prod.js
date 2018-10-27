@@ -6,6 +6,17 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 module.exports = merge(common, {
     mode: 'production',
     optimization: {
+        splitChunks: {
+            chunks: 'all',
+            cacheGroups: {
+                styles: {
+                    name: 'styles',
+                    test: /\.scss$/,
+                    chunks: 'all',
+                    enforce: true
+                }
+            }
+        },
         minimizer: [
             new UglifyJsPlugin({
                 cache: true,

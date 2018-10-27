@@ -9,10 +9,10 @@ module.exports = merge(common, {
         compress: true,
         port: 9000
     },
-    watch: true,
-    watchOptions: {
+    // watch: true,
+    /* watchOptions: {
         // aggregateTimeout: 300,
         // poll: 1000,
         ignored: /node_modules/
-    }
+    } */
 });
